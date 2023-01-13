@@ -5,14 +5,14 @@ axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 export default class PicturesAPI {
   constructor() {
-    this.query = '';
+    this.searchQuery = '';
     this.page = 1;
   }
 
   async fetchAPI() {
     const options = new URLSearchParams({
       key: API_KEY,
-      q: this.query,
+      q: this.searchQuery,
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: 'true',
@@ -20,21 +20,22 @@ export default class PicturesAPI {
       per_page: 40,
     });
     const { data } = await axios(`?${options}`);
-    // this.page += 1;
+    this.page += 1;
     return data;
   }
-  incrementPages() {
-    this.page += 1;
-  }
+  // incrementPages() {
+  //   this.page += 1;
+  //   console.log(this);
+  // }
 
   resetPage() {
     this.page = 1;
   }
-  get getCurrentQuery() {
-    return this.query;
+  get query() {
+    return this.searchQuery;
   }
 
-  set setNewQuery(newQuery) {
-    this.query = newQuery;
+  set query(newQuery) {
+    this.searchQuery = newQuery;
   }
 }

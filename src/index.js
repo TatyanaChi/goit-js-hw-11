@@ -5,8 +5,8 @@ import LoadMoreBtn from './js/loadMoreBtn';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const API_KEY = '32700360-715d6045c0392da5b083a02ff';
 const picturesAPI = new PicturesAPI();
+console.log(picturesAPI);
 const loadMoreBtn = new LoadMoreBtn('load-more', onLoadMoreBtn);
 const simpleLightBox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -48,6 +48,7 @@ async function onFormSubmit(e) {
       return;
     }
     Notify.success(`Hooray! We found ${totalHits} images.`);
+
     onMarkupPhotos(hits);
     simpleLightBox.refresh();
     loadMoreBtn.show();
@@ -55,8 +56,8 @@ async function onFormSubmit(e) {
     Notify.failure('Something is wrong');
   }
 
-  function onMarkupPhotos(hits) {
-    const markupPhotos = hits
+  function onMarkupPhotos(photos) {
+    const markupPhotos = photos
       .map(
         ({
           webformatURL,
@@ -69,7 +70,8 @@ async function onFormSubmit(e) {
         }) => {
           return `<div class="photo-card">
         <a href ="${largeImageURL}">
-    <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
+    <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    </a>
     <div class="info">
       <p class="info-item">
         <b>Likes: </b>${likes}
@@ -94,12 +96,11 @@ async function onFormSubmit(e) {
 }
 
 async function onLoadMoreBtn() {
-  picturesAPI.incrementPages();
+  // picturesAPI.incrementPages();
   loadMoreBtn.loading();
 
   try {
     const { hits } = await picturesAPI.fetchAPI();
-
     onMarkupPhotos(hits);
     simpleLightBox.refresh();
     loadMoreBtn.endLoading();
