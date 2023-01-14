@@ -50,25 +50,27 @@ async function onFormSubmit(e) {
     Notify.success(`Hooray! We found ${totalHits} images.`);
 
     onMarkupPhotos(hits);
+    console.log(onMarkupPhotos);
     simpleLightBox.refresh();
     loadMoreBtn.show();
   } catch (error) {
     Notify.failure('Something is wrong');
   }
+}
 
-  function onMarkupPhotos(photos) {
-    const markupPhotos = photos
-      .map(
-        ({
-          webformatURL,
-          largeImageURL,
-          tags,
-          likes,
-          views,
-          comments,
-          downloads,
-        }) => {
-          return `<div class="photo-card">
+function onMarkupPhotos(hits) {
+  const markupPhotos = hits
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
+        return `<div class="photo-card">
         <a href ="${largeImageURL}">
     <img src="${webformatURL}" alt="${tags}" loading="lazy" />
     </a>
@@ -87,12 +89,12 @@ async function onFormSubmit(e) {
       </p>
     </div>
   </div>`;
-        }
-      )
-      .join('');
+      }
+    )
+    .join('');
 
-    refs.galleryContainer.insertAdjacentHTML('beforeend', markupPhotos);
-  }
+  console.log(markupPhotos);
+  refs.galleryContainer.insertAdjacentHTML('beforeend', markupPhotos);
 }
 
 async function onLoadMoreBtn() {
