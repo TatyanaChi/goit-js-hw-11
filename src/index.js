@@ -34,6 +34,7 @@ async function onFormSubmit(e) {
   }
 
   picturesAPI.resetPage();
+  refs.galleryContainer.innerHTML = '';
 
   try {
     const { hits, totalHits } = await picturesAPI.fetchAPI();
@@ -50,7 +51,6 @@ async function onFormSubmit(e) {
     Notify.success(`Hooray! We found ${totalHits} images.`);
 
     onMarkupPhotos(hits);
-    console.log(onMarkupPhotos);
     simpleLightBox.refresh();
     loadMoreBtn.show();
   } catch (error) {
@@ -93,7 +93,6 @@ function onMarkupPhotos(hits) {
     )
     .join('');
 
-  console.log(markupPhotos);
   refs.galleryContainer.insertAdjacentHTML('beforeend', markupPhotos);
 }
 
