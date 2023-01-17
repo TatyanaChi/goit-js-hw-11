@@ -47,12 +47,17 @@ async function onFormSubmit(e) {
       refs.galleryContainer.innerHTML = '';
       loadMoreBtn.hide();
       return;
+    } else if (hits.length < totalHits) {
+      Notify.success(`Hooray! We found ${totalHits} images.`);
+      onMarkupPhotos(hits);
+      simpleLightBox.refresh();
+      loadMoreBtn.show();
+    } else if (hits.length === totalHits) {
+      onMarkupPhotos(hits);
+      loadMoreBtn.hide();
+      Notify.info(`We're sorry, but you've reached the end of search results.`);
+      Notify.success(`Hooray! We found ${totalHits} images.`);
     }
-    Notify.success(`Hooray! We found ${totalHits} images.`);
-
-    onMarkupPhotos(hits);
-    simpleLightBox.refresh();
-    loadMoreBtn.show();
   } catch (error) {
     Notify.failure('Something is wrong');
   }
